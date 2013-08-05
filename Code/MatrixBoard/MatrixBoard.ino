@@ -2,7 +2,7 @@
 #include <TouchScreen.h>
 
 char curRow;
-byte colorMatrix[8][24];
+byte colorMatrix[NUM_COLS][NUM_ROWS];
 byte switchState;
 TouchScreen ts = TouchScreen(pTS0, pTS1, pTS2, pTS3, TS_RESISTANCE); //!! may need to change these pins
 
@@ -15,7 +15,10 @@ void setup()
 
 void loop()
 {
-  checkBtn();
+  if (checkBtn())
+  {
+    fillScreen();
+  }
   Point p = ts.getPoint();
   if( p.z > ts.pressureThreshhold )
   {
@@ -47,3 +50,41 @@ void changeScreen( int x_in, int y_in )
     colorMatrix[xIndex][y] |= (xBitmask); //set bits
   }
 }
+
+void fillScreen()
+{
+  byte temp;
+  byte rgstate = switchState && 0x3;
+  
+  switch( rgstate ) {
+    case 0: //nothing
+      temp = 0x00;
+      break;
+    case 1: //green
+      temp = 0x55;
+      break;
+    case 2: //red
+      temp = 0xAA;
+      break;
+    case 3: //both
+      temp = 0xFF;
+      break;
+  }
+  
+  if ((switchState && 0x4) == 0) //erase
+  {
+    temp = ~temp;
+    for( byte c = 0; c < NUM_COLS; c++ ) {
+      for( byte r = 0; r < NUM_ROWS; r++ ) {
+        colorMatrix[c][r] &= temp;
+      }
+    }
+  } else { //draw mode
+    for( byte c = 0; c < NUM_COLS; c++ ) {
+      for( byte r = 0; r < NUM_ROWS; r++ ) {
+        colorMatrix[c][r] |= temp;
+      }
+    }
+  }
+}
+    

@@ -27,15 +27,15 @@ void initDisplay()
   
   PORTSR = 0xFF;
   //clear out regs
-  for(char c = 0; c < 8; c++)
+  for(char c = 0; c < NUM_COLS; c++)
   {
     PULSE(pClk0);
     PULSE(pClk1);
   }
   
-  for(char c = 0; c < 8; c++)
+  for(char c = 0; c < NUM_COLS; c++)
   {
-    for(char r = 0; r < 24; r++)
+    for(char r = 0; r < NUM_ROWS; r++)
     {
       colorMatrix[c][r] = 0;
     }
@@ -80,7 +80,7 @@ void testLED()
   //LIGHT UP GREEN
   PORTSR = 0xAA;
   digitalWrite(pSync, HIGH);
-  for(char c = 0; c < 8; c++) {
+  for(char c = 0; c < NUM_COLS; c++) {
     PULSE(pClk0);
     PULSE(pClk1);
   }
@@ -90,7 +90,7 @@ void testLED()
   
   //LIGHT UP RED
   PORTSR = 0x55;
-  for(char c = 0; c < 8; c++) {
+  for(char c = 0; c < NUM_COLS; c++) {
     PULSE(pClk0);
     PULSE(pClk1);
   }
@@ -100,7 +100,7 @@ void testLED()
   
   //LIGHT UP BOTH
   PORTSR = 0x00;
-  for(char c = 0; c < 8; c++) {
+  for(char c = 0; c < NUM_COLS; c++) {
     PULSE(pClk0);
     PULSE(pClk1);
   }
@@ -110,7 +110,7 @@ void testLED()
   
   //TURN OFF
   PORTSR = 0xFF;
-  for(char c = 0; c < 8; c++) {
+  for(char c = 0; c < NUM_COLS; c++) {
     PULSE(pClk0);
     PULSE(pClk1);
   }

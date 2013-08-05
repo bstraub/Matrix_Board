@@ -13,7 +13,7 @@ void initTimer()
 /// ISR for the timer interrupt (2.404kHz)
 ISR(TIMER2_COMPA_vect)
 {
-  if (curRow == -1 || curRow == 7)
+  if (curRow == -1 || curRow == NUM_COLS-1)
     drawDisplayStart();
   else
     drawNextRow();
